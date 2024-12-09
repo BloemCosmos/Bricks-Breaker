@@ -1,0 +1,80 @@
+@startuml Arkanoid
+
+class Jugador {
+  + Jugador(RenderWindow& ventana)
+  + moverDerecha()
+  + moverIzquierda()
+  + dibujar(RenderWindow& ventana)
+  + escalarPaleta()
+  + restaurarEscala()
+  + getPosition() : FloatRect
+  - paleta : RectangleShape
+}
+
+class Puntuaje {
+  - puntuacion: int
+  - textoPuntuacion: sf::Text
+  - fuente: sf::Font
+  + Puntuaje()
+  + incrementarPuntuacion(puntos: int)
+  + reiniciarPuntuacion()
+  + draw(window: RenderWindow&)
+}
+
+class Bloque {
+  + Bloque()
+  + inicializar(float x, float y, bool estado, Color color)
+  + colision(FloatRect bolaPos) : bool
+  + dibujar(RenderWindow& ventana)
+  + getPosition() : Vector2f
+  - bloque : RectangleShape
+  - estado : bool
+}
+
+class Bola {
+  + Bola(RenderWindow& ventana)
+  + mover()
+  + rebotar()
+  + dibujar(RenderWindow& ventana)
+  + getPosition() : FloatRect
+  + cambiarDireccionX()
+  + cambiarDireccionY()
+  - bola : CircleShape
+  - velDirBola : Vector2f
+}
+
+class Pastilla {
+  + Pastilla()
+  + inicializar(float x, float y)
+  + mover()
+  + dibujar(RenderWindow& ventana)
+  + colision(FloatRect jugadorPos) : bool
+  + getEstado() : bool
+  + desactivar()
+  - pastilla : RectangleShape
+  - estado : bool
+}
+
+class Juego {
+  + Iniciar()
+  + EstaEjecutandose()
+}
+
+Jugador "1" *-- "1" Bola
+Jugador "1" o-- "1" Bola
+Jugador "1" o-- "0..1*" Bloque
+Jugador "1" *-- Pastilla
+Jugador "1" o-- "0..1" Pastilla
+Jugador "1" *-- "0..1" Puntuaje
+
+Juego "1" *-- "1" Jugador
+Juego "1" *-- "0..1*" Bloque
+Juego "1" *-- "1" Bola
+Juego "1" *-- "0..1" Pastilla
+Juego "1" *-- "1" Puntuaje
+
+Bloque "1" *-- "0..1" Puntuaje
+Bola "1" o-- "1" Bloque
+Pastilla "1" o-- "1" Bola
+
+@enduml
