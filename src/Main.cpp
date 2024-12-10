@@ -6,25 +6,25 @@
 using namespace std;
 using namespace sf;
 
-// Bloque de Vidrio
-struct Bloque
+// Ladrillo de Vidrio
+struct Ladrillo
 {
     bool estado = true;
-    RectangleShape bloque;
-} bloques[8][10];
-// Pastilla
-struct Pastilla
+    RectangleShape ladrillo;
+} ladrillos[8][10];
+// Plataforma
+struct Plataforma
 {
     bool estado = false;
-    RectangleShape pastilla;
-} pastilla;
-int auxPastilla;
-// Cantidad de Bloques Activos
-int cantBloques = 56;
-// Bola
-CircleShape bola;
-// Direccion y Velocidad Bola
-Vector2f velDirBola(-3, -3);
+    RectangleShape plataforma;
+} plataforma;
+int auxPlataforma;
+// Cantidad de Ladrillos Activos
+int cantLadrillos = 56;
+// Pelota
+CircleShape pelota;
+// Direccion y Velocidad Pelota
+Vector2f velDirPelota(-3, -3);
 // Paleta
 RectangleShape paleta;
 // Detectar Colision
@@ -37,8 +37,8 @@ Text texto;
 // Auxiliares para Colores
 int idCV = 1, idCH = 1;
 // Sonidos
-SoundBuffer paredSB, paletaSB, bloqueSB;
-Sound paredS, paletaS, bloqueS;
+SoundBuffer paredSB, paletaSB, ladrilloSB;
+Sound paredS, paletaS, ladrilloS;
 // Timer/Contador
 int timer = 0;
 
@@ -48,11 +48,11 @@ int main()
     RenderWindow ventana(VideoMode(650, 500), "Arcanoid");
     ventana.setFramerateLimit(60);
     
-    // Bola
-    bola = CircleShape(5.f);
-    bola.setOrigin(2.5f, 2.5f);
-    bola.setFillColor(Color::Yellow);
-    bola.setPosition(ventana.getSize().x / 2, ventana.getSize().y / 2);
+    // Pelota
+    pelota = CircleShape(5.f);
+    pelota.setOrigin(2.5f, 2.5f);
+    pelota.setFillColor(Color::Yellow);
+    pelota.setPosition(ventana.getSize().x / 2, ventana.getSize().y / 2);
     // Paleta
     paleta = RectangleShape(Vector2f(60, 10));
     paleta.setOrigin(paleta.getSize().x / 2, paleta.getSize().y / 2);
@@ -65,47 +65,47 @@ int main()
     }
     texto.setFont(fuente);
     // Sonidos
-    if (!paredSB.loadFromFile("Sounds/ReboteParedes.wav") || !paletaSB.loadFromFile("Sounds/RebotePaleta.wav") || !bloqueSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
+    if (!paredSB.loadFromFile("Sounds/ReboteParedes.wav") || !paletaSB.loadFromFile("Sounds/RebotePaleta.wav") || !ladrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
     {
         cout << "Error al cargar los sonidos." << endl;
     }
     paredS.setBuffer(paredSB);
     paletaS.setBuffer(paletaSB);
-    bloqueS.setBuffer(bloqueSB);
-    // Incilaizar Pastilla
-    pastilla.pastilla = RectangleShape(Vector2f(30, 10));
-    pastilla.pastilla.setFillColor(Color::Red);
-    // Inicializacion de Bloques de Vidrio
+    ladrilloS.setBuffer(ladrilloSB);
+    // Inicializar Plataforma
+    plataforma.plataforma = RectangleShape(Vector2f(30, 10));
+    plataforma.plataforma.setFillColor(Color::Red);
+    // Inicializacion de Ladrillos de Vidrio
     for (int i = 1; i < 8; i++)
     {
         idCV *= -1;
         for (int j = 1; j < 9; j++)
         {
-            // Tamaño Bloques
-            bloques[i][j].bloque = RectangleShape(Vector2f(65, 10));
-            // Posicion Bloques
-            bloques[i][j].bloque.setPosition(j * 66, (i + 1) * 11);
-            // Colores Bloques
+            // Tamaño Ladrillos
+            ladrillos[i][j].ladrillo = RectangleShape(Vector2f(65, 10));
+            // Posicion Ladrillos
+            ladrillos[i][j].ladrillo.setPosition(j * 66, (i + 1) * 11);
+            // Colores Ladrillos
             if (idCV == 1)
             { // Cian Verde
                 if (idCH == 1)
                 {
-                    bloques[i][j].bloque.setFillColor(Color::Cyan);
+                    ladrillos[i][j].ladrillo.setFillColor(Color::Cyan);
                 }
                 else
                 {
-                    bloques[i][j].bloque.setFillColor(Color::Green);
+                    ladrillos[i][j].ladrillo.setFillColor(Color::Green);
                 }
             }
             else
             { // Amarillo y Magenta
                 if (idCH == 1)
                 {
-                    bloques[i][j].bloque.setFillColor(Color::Yellow);
+                    ladrillos[i][j].ladrillo.setFillColor(Color::Yellow);
                 }
                 else
                 {
-                    bloques[i][j].bloque.setFillColor(Color::Magenta);
+                    ladrillos[i][j].ladrillo.setFillColor(Color::Magenta);
                 }
             }
             idCH *= -1;
@@ -126,20 +126,20 @@ int main()
         timer++;
         if (activo)
         { // Si esta activo el juego ejecutamos el codigo
-            // Rebote Bola
-            if (bola.getPosition().x >= ventana.getSize().x || bola.getPosition().x <= 0)
+            // Rebote Pelota
+            if (pelota.getPosition().x >= ventana.getSize().x || pelota.getPosition().x <= 0)
             {
                 // Cambiamos Direccion en X
-                velDirBola.x *= -1;
+                velDirPelota.x *= -1;
                 paredS.play();
             }
-            if (bola.getPosition().y <= 0)
+            if (pelota.getPosition().y <= 0)
             {
                 // Cambiamos Direccion en Y
-                velDirBola.y *= -1;
+                velDirPelota.y *= -1;
                 paredS.play();
             }
-            if (bola.getPosition().y >= ventana.getSize().y)
+            if (pelota.getPosition().y >= ventana.getSize().y)
             {
                 // Perdio el juego
                 activo = false;
@@ -155,63 +155,63 @@ int main()
             {
                 paleta.move(-3.5, 0);
             }
-            // Movimiento Bola
-            bola.move(velDirBola.x, velDirBola.y);
-            // Colision Pastilla
-            if (pastilla.estado && paleta.getGlobalBounds().contains(pastilla.pastilla.getPosition().x, pastilla.pastilla.getPosition().y))
+            // Movimiento Pelota
+            pelota.move(velDirPelota.x, velDirPelota.y);
+            // Colision Plataforma
+            if (plataforma.estado && paleta.getGlobalBounds().contains(plataforma.plataforma.getPosition().x, plataforma.plataforma.getPosition().y))
             {
                 paleta.setScale(2, 1);
-                pastilla.estado = false;
+                plataforma.estado = false;
                 timer = 0;
             }
-            // Colisiones Bola
+            // Colisiones Pelota
             if (!enColision)
             {
-                // Colision Bola Paleta
-                if (paleta.getGlobalBounds().contains(bola.getPosition().x, bola.getPosition().y))
+                // Colision Pelota Paleta
+                if (paleta.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
                 {
-                    if (paleta.getPosition().x - bola.getPosition().x >= 20)
+                    if (paleta.getPosition().x - pelota.getPosition().x >= 20)
                     { // Rebote Lado Izquierdo
-                        velDirBola.x = -3;
+                        velDirPelota.x = -3;
                     }
-                    else if (paleta.getPosition().x - bola.getPosition().x <= -20)
+                    else if (paleta.getPosition().x - pelota.getPosition().x <= -20)
                     { // Rebote Lado Derecho
-                        velDirBola.x = 3;
+                        velDirPelota.x = 3;
                     }
                     else
                     { // Rebote en el Medio
-                        if (velDirBola.x > 0)
+                        if (velDirPelota.x > 0)
                         {
-                            velDirBola.x = 1.5;
+                            velDirPelota.x = 1.5;
                         }
                         else
                         {
-                            velDirBola.x = -1.5;
+                            velDirPelota.x = -1.5;
                         }
                     }
-                    velDirBola.y *= -1; // Cambiar Direccion Y
+                    velDirPelota.y *= -1; // Cambiar Direccion Y
                     enColision = true;
                     paletaS.play();
                 }
-                // Colision Bola Bloque Vidrio
+                // Colision Pelota Ladrillo Vidrio
                 for (int i = 1; i < 8; i++)
                 {
                     for (int j = 1; j < 9; j++)
                     {
-                        if (bloques[i][j].estado && bloques[i][j].bloque.getGlobalBounds().contains(bola.getPosition().x, bola.getPosition().y))
+                        if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
                         {
-                            velDirBola.y *= -1;
-                            bloques[i][j].estado = false;
+                            velDirPelota.y *= -1;
+                            ladrillos[i][j].estado = false;
                             enColision = true;
-                            cantBloques--;
-                            bloqueS.play();
-                            // Pastilla Aleatoria
+                            cantLadrillos--;
+                            ladrilloS.play();
+                            // Plataforma Aleatoria
                             srand(time(NULL));
-                            auxPastilla = 1 + rand() % 6; // Num Aleatorio 1-5
-                            if (auxPastilla == 1 && !pastilla.estado)
+                            auxPlataforma = 1 + rand() % 6; // Num Aleatorio 1-5
+                            if (auxPlataforma == 1 && !plataforma.estado)
                             {
-                                pastilla.estado = true;
-                                pastilla.pastilla.setPosition(bloques[i][j].bloque.getPosition().x, bloques[i][j].bloque.getPosition().y);
+                                plataforma.estado = true;
+                                plataforma.plataforma.setPosition(ladrillos[i][j].ladrillo.getPosition().x, ladrillos[i][j].ladrillo.getPosition().y);
                             }
                         }
                     }
@@ -220,7 +220,7 @@ int main()
             else
             {
                 enColision = false;
-                if (paleta.getGlobalBounds().contains(bola.getPosition().x, bola.getPosition().y))
+                if (paleta.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
                 {
                     enColision = true;
                 }
@@ -228,7 +228,7 @@ int main()
                 {
                     for (int j = 1; j < 9; j++)
                     {
-                        if (bloques[i][j].estado && bloques[i][j].bloque.getGlobalBounds().contains(bola.getPosition().x, bola.getPosition().y))
+                        if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
                         {
                             enColision = true;
                             break;
@@ -241,18 +241,18 @@ int main()
                 }
             }
         }
-        // Movimiento Pastilla
-        if (pastilla.estado)
+        // Movimiento Plataforma
+        if (plataforma.estado)
         {
-            pastilla.pastilla.move(0, 2.5f);
+            plataforma.plataforma.move(0, 2.5f);
         }
-        // Comprobar Efecto Pastilla
+        // Comprobar Efecto Plataforma
         if (timer >= 600)
         {
             paleta.setScale(1, 1);
         }
-        // Comprobar si quedan bloques
-        if (cantBloques <= 0)
+        // Comprobar si quedan ladrillos
+        if (cantLadrillos <= 0)
         {
             activo = false;
             texto.setString("Ganaste");
@@ -263,24 +263,24 @@ int main()
         if (activo)
         {
             // Dibujar Pantalla
-            ventana.draw(bola);
+            ventana.draw(pelota);
             // Dibujar Paleta
             ventana.draw(paleta);
-            // Dibujar Vitral de Bloques
+            // Dibujar Vitral de Ladrillos
             for (int i = 1; i < 8; i++)
             {
                 for (int j = 1; j < 9; j++)
                 {
-                    if (bloques[i][j].estado)
+                    if (ladrillos[i][j].estado)
                     {
-                        ventana.draw(bloques[i][j].bloque);
+                        ventana.draw(ladrillos[i][j].ladrillo);
                     }
                 }
             }
-            // Dibujar Pastilla
-            if (pastilla.estado)
+            // Dibujar Plataforma
+            if (plataforma.estado)
             {
-                ventana.draw(pastilla.pastilla);
+                ventana.draw(plataforma.plataforma);
             }
         }
         else
