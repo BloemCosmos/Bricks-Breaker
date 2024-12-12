@@ -58,20 +58,25 @@ int main()
     paleta.setOrigin(paleta.getSize().x / 2, paleta.getSize().y / 2);
     paleta.setFillColor(Color::Blue);
     paleta.setPosition(ventana.getSize().x / 2, ventana.getSize().y - 20);
+    
     // Fuente y Texto
-    if (!fuente.loadFromFile("Fonts/ARCADE.TTF"))
+    if (!fuente.loadFromFile("Fonts/Arial.ttf"))
     {
         cout << "Error al cargar la fuente." << endl;
     }
     texto.setFont(fuente);
+    
     // Sonidos
-    if (!paredSB.loadFromFile("Sounds/ReboteParedes.wav") || !paletaSB.loadFromFile("Sounds/RebotePaleta.wav") || !ladrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
+    if (!paredSB.loadFromFile("Sounds/ReboteParedes.wav") || 
+        !paletaSB.loadFromFile("Sounds/RebotePaleta.wav") || 
+        !ladrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
     {
         cout << "Error al cargar los sonidos." << endl;
     }
     paredS.setBuffer(paredSB);
     paletaS.setBuffer(paletaSB);
     ladrilloS.setBuffer(ladrilloSB);
+    
     // Inicializar Plataforma
     plataforma.plataforma = RectangleShape(Vector2f(30, 10));
     plataforma.plataforma.setFillColor(Color::Red);
@@ -112,9 +117,23 @@ int main()
         }
     }
 
+    // Cargar la textura de la imagen de fondo
+    sf::Texture backgroundTexture;
+    if (!backgroundTexture.loadFromFile("images/fondo_brick.jpg")) {
+        std::cerr << "Error al cargar la imagen de fondo" << std::endl;
+        return -1;
+    }
+
+    // Crear un sprite para la imagen de fondo
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(backgroundTexture);
+
+    // Crear un bloque grande de color blanco
+    RectangleShape bloqueBlanco(Vector2f(650, 500));
+    bloqueBlanco.setFillColor(Color::White);
+
     while (ventana.isOpen())
     {
-        
         Event event;
         while (ventana.pollEvent(event))
         {
@@ -258,11 +277,15 @@ int main()
             texto.setString("Ganaste");
             texto.setPosition(200, ventana.getSize().y / 2);
         }
-        // Limpiar Pantalla
-        ventana.clear();
+        // Limpiar Pantalla con un color de fondo específico
+        ventana.clear(Color(135, 206, 250)); // Azul claro
+
         if (activo)
         {
+            // Dibujar bloque blanco
+            ventana.draw(bloqueBlanco);
             // Dibujar Pantalla
+            ventana.draw(backgroundSprite);
             ventana.draw(pelota);
             // Dibujar Paleta
             ventana.draw(paleta);
