@@ -7,65 +7,65 @@
 
 class Pelota {
 private:
-    sf::CircleShape pelota;
-    sf::Vector2f velDirPelota;
+    sf::CircleShape PelotaShape;
+    sf::Vector2f VelDirPelota;
 
 public:
     Pelota(float radius, sf::Vector2f position, sf::Color color);
-    void move();
-    void checkBoundaryCollision(sf::RenderWindow &window, sf::Sound &paredSound);
-    void checkPaletaCollision(sf::RectangleShape &paleta, sf::Sound &paletaSound);
-    void checkLadrilloCollision(Ladrillo ladrillos[8][10], int &cantLadrillos, sf::Sound &ladrilloSound, sf::RectangleShape &plataforma);
-    void draw(sf::RenderWindow &window);
-    sf::Vector2f getPosition();
+    void Move();
+    void CheckBoundaryCollision(sf::RenderWindow &window, sf::Sound &paredSound);
+    void CheckPaletaCollision(sf::RectangleShape &paleta, sf::Sound &paletaSound);
+    void CheckLadrilloCollision(Ladrillo ladrillos[8][10], int &cantLadrillos, sf::Sound &ladrilloSound, sf::RectangleShape &plataforma);
+    void Draw(sf::RenderWindow &window);
+    sf::Vector2f GetPosition();
 };
 
 Pelota::Pelota(float radius, sf::Vector2f position, sf::Color color) {
-    pelota = sf::CircleShape(radius);
-    pelota.setOrigin(radius, radius);
-    pelota.setFillColor(color);
-    pelota.setPosition(position);
-    velDirPelota = sf::Vector2f(-3, -3);
+    PelotaShape = sf::CircleShape(radius);
+    PelotaShape.setOrigin(radius, radius);
+    PelotaShape.setFillColor(color);
+    PelotaShape.setPosition(position);
+    VelDirPelota = sf::Vector2f(-3, -3);
 }
 
-void Pelota::move() {
-    pelota.move(velDirPelota);
+void Pelota::Move() {
+    PelotaShape.move(VelDirPelota);
 }
 
-void Pelota::checkBoundaryCollision(sf::RenderWindow &window, sf::Sound &paredSound) {
-    if (pelota.getPosition().x >= window.getSize().x || pelota.getPosition().x <= 0) {
-        velDirPelota.x *= -1;
+void Pelota::CheckBoundaryCollision(sf::RenderWindow &window, sf::Sound &paredSound) {
+    if (PelotaShape.getPosition().x >= window.getSize().x || PelotaShape.getPosition().x <= 0) {
+        VelDirPelota.x *= -1;
         paredSound.play();
     }
-    if (pelota.getPosition().y <= 0) {
-        velDirPelota.y *= -1;
+    if (PelotaShape.getPosition().y <= 0) {
+        VelDirPelota.y *= -1;
         paredSound.play();
     }
 }
 
-void Pelota::checkPaletaCollision(sf::RectangleShape &paleta, sf::Sound &paletaSound) {
-    if (paleta.getGlobalBounds().intersects(pelota.getGlobalBounds())) {
+void Pelota::CheckPaletaCollision(sf::RectangleShape &paleta, sf::Sound &paletaSound) {
+    if (paleta.getGlobalBounds().intersects(PelotaShape.getGlobalBounds())) {
         float paletaCenterX = paleta.getPosition().x;
-        float pelotaCenterX = pelota.getPosition().x;
+        float pelotaCenterX = PelotaShape.getPosition().x;
         
         if (pelotaCenterX < paletaCenterX) {
-            velDirPelota.x = -3;
+            VelDirPelota.x = -3;
         } else if (pelotaCenterX > paletaCenterX) {
-            velDirPelota.x = 3;
+            VelDirPelota.x = 3;
         } else {
-            velDirPelota.x = 0;
+            VelDirPelota.x = 0;
         }
         
-        velDirPelota.y *= -1;
+        VelDirPelota.y *= -1;
         paletaSound.play();
     }
 }
 
-void Pelota::checkLadrilloCollision(Ladrillo ladrillos[8][10], int &cantLadrillos, sf::Sound &ladrilloSound, sf::RectangleShape &plataforma) {
+void Pelota::CheckLadrilloCollision(Ladrillo ladrillos[8][10], int &cantLadrillos, sf::Sound &ladrilloSound, sf::RectangleShape &plataforma) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 10; j++) {
-            if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().intersects(pelota.getGlobalBounds())) {
-                velDirPelota.y *= -1;
+            if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().intersects(PelotaShape.getGlobalBounds())) {
+                VelDirPelota.y *= -1;
                 ladrillos[i][j].estado = false;
                 cantLadrillos--;
                 ladrilloSound.play();
@@ -82,13 +82,12 @@ void Pelota::checkLadrilloCollision(Ladrillo ladrillos[8][10], int &cantLadrillo
     }
 }
 
-void Pelota::draw(sf::RenderWindow &window) {
-    window.draw(pelota);
+void Pelota::Draw(sf::RenderWindow &window) {
+    window.draw(PelotaShape);
 }
 
-sf::Vector2f Pelota::getPosition() {
-    return pelota.getPosition();
+sf::Vector2f Pelota::GetPosition() {
+    return PelotaShape.getPosition();
 }
 
 #endif // PELOTA_HPP
-

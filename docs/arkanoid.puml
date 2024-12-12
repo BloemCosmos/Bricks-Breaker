@@ -2,12 +2,12 @@
 
 class Jugador {
   + Jugador(RenderWindow& ventana)
-  + moverDerecha()
-  + moverIzquierda()
-  + dibujar(RenderWindow& ventana)
-  + escalarPaleta()
-  + restaurarEscala()
-  + getPosition() : FloatRect
+  + MoverDerecha()
+  + MoverIzquierda()
+  + Dibujar(RenderWindow& ventana)
+  + EscalarPaleta()
+  + RestaurarEscala()
+  + GetPosition() : FloatRect
   - paleta : RectangleShape
 }
 
@@ -16,41 +16,41 @@ class Puntuaje {
   - textoPuntuacion: sf::Text
   - fuente: sf::Font
   + Puntuaje()
-  + incrementarPuntuacion(puntos: int)
-  + reiniciarPuntuacion()
-  + draw(window: RenderWindow&)
+  + IncrementarPuntuacion(puntos: int)
+  + ReiniciarPuntuacion()
+  + Draw(window: RenderWindow&)
 }
 
 class Bloque {
   + Bloque()
-  + inicializar(float x, float y, bool estado, Color color)
-  + colision(FloatRect bolaPos) : bool
-  + dibujar(RenderWindow& ventana)
-  + getPosition() : Vector2f
+  + Inicializar(float x, float y, bool estado, Color color)
+  + Colision(FloatRect bolaPos) : bool
+  + Dibujar(RenderWindow& ventana)
+  + GetPosition() : Vector2f
   - bloque : RectangleShape
   - estado : bool
 }
 
 class Bola {
   + Bola(RenderWindow& ventana)
-  + mover()
-  + rebotar()
-  + dibujar(RenderWindow& ventana)
-  + getPosition() : FloatRect
-  + cambiarDireccionX()
-  + cambiarDireccionY()
+  + Mover()
+  + Rebotar()
+  + Dibujar(RenderWindow& ventana)
+  + GetPosition() : FloatRect
+  + CambiarDireccionX()
+  + CambiarDireccionY()
   - bola : CircleShape
   - velDirBola : Vector2f
 }
 
 class Pastilla {
   + Pastilla()
-  + inicializar(float x, float y)
-  + mover()
-  + dibujar(RenderWindow& ventana)
-  + colision(FloatRect jugadorPos) : bool
-  + getEstado() : bool
-  + desactivar()
+  + Inicializar(float x, float y)
+  + Mover()
+  + Dibujar(RenderWindow& ventana)
+  + Colision(FloatRect jugadorPos) : bool
+  + GetEstado() : bool
+  + Desactivar()
   - pastilla : RectangleShape
   - estado : bool
 }

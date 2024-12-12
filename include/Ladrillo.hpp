@@ -3,49 +3,48 @@
 
 #include <SFML/Graphics.hpp>
 
-class Ladrillo {
+class Brick {
 private:
-    sf::RectangleShape ladrillo;
-    bool estado;
+    sf::RectangleShape brick;
+    bool state;
 
 public:
-    Ladrillo();
-    void inicializar(float x, float y, bool estado, sf::Color color);
-    bool colision(sf::FloatRect pelotaPos);
-    void dibujar(sf::RenderWindow& ventana);
-    sf::Vector2f getPosition();
+    Brick();
+    void Initialize(float x, float y, bool state, sf::Color color);
+    bool Collision(sf::FloatRect ballPos);
+    void Draw(sf::RenderWindow& window);
+    sf::Vector2f GetPosition();
 };
 
 #endif // LADRILLO_HPP
 
-Ladrillo::Ladrillo() {
-    estado = true;
+Brick::Brick() {
+    state = true;
 }
 
-void Ladrillo::inicializar(float x, float y, bool estado, sf::Color color) {
-    ladrillo.setSize(sf::Vector2f(65, 10));
-    ladrillo.setFillColor(color);
-    ladrillo.setPosition(x, y);
-    this->estado = estado;
+void Brick::Initialize(float x, float y, bool state, sf::Color color) {
+    brick.setSize(sf::Vector2f(65, 10));
+    brick.setFillColor(color);
+    brick.setPosition(x, y);
+    this->state = state;
 }
 
-bool Ladrillo::colision(sf::FloatRect pelotaPos) {
-    if (estado && ladrillo.getGlobalBounds().intersects(pelotaPos)) {
-        estado = false;
+bool Brick::Collision(sf::FloatRect ballPos) {
+    if (state && brick.getGlobalBounds().intersects(ballPos)) {
+        state = false;
         return true;
     }
     return false;
 }
 
-void Ladrillo::dibujar(sf::RenderWindow& ventana) {
-    if (estado) {
-        ventana.draw(ladrillo);
+void Brick::Draw(sf::RenderWindow& window) {
+    if (state) {
+        window.draw(brick);
     }
 }
 
-sf::Vector2f Ladrillo::getPosition() {
-    return ladrillo.getPosition();
+sf::Vector2f Brick::GetPosition() {
+    return brick.getPosition();
 }
 
 #endif // LADRILLO_HPP
-

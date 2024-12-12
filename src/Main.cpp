@@ -2,235 +2,235 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <time.h>
-
+#include <SFML/Graphics/Image.hpp>
 using namespace std;
 using namespace sf;
 
 // Ladrillo de Vidrio
 struct Ladrillo
 {
-    bool estado = true;
-    RectangleShape ladrillo;
-} ladrillos[8][10];
+    bool Estado = true;
+    RectangleShape LadrilloShape;
+} Ladrillos[8][10];
 // Plataforma
 struct Plataforma
 {
-    bool estado = false;
-    RectangleShape plataforma;
-} plataforma;
-int auxPlataforma;
+    bool Estado = false;
+    RectangleShape PlataformaShape;
+} Plataforma;
+int AuxPlataforma;
 // Cantidad de Ladrillos Activos
-int cantLadrillos = 56;
+int CantLadrillos = 80;
 // Pelota
-CircleShape pelota;
+CircleShape Pelota;
 // Direccion y Velocidad Pelota
-Vector2f velDirPelota(-3, -3);
+Vector2f VelDirPelota(-3, -3);
 // Paleta
-RectangleShape paleta;
+RectangleShape Paleta;
 // Detectar Colision
-bool enColision = false;
+bool EnColision = false;
 // Estado del Juego
-bool activo = true;
+bool Activo = true;
 // Fuente y Texto
-Font fuente;
-Text texto;
+Font Fuente;
+Text Texto;
 // Auxiliares para Colores
-int idCV = 1, idCH = 1;
+int IdCV = 1, IdCH = 1;
 // Sonidos
-SoundBuffer paredSB, paletaSB, ladrilloSB;
-Sound paredS, paletaS, ladrilloS;
+SoundBuffer ParedSB, PaletaSB, LadrilloSB;
+Sound ParedS, PaletaS, LadrilloS;
 // Timer/Contador
-int timer = 0;
+int Timer = 0;
 
 int main()
 {
     // Ventana
-    RenderWindow ventana(VideoMode(650, 500), "Arcanoid");
-    ventana.setFramerateLimit(60);
+    RenderWindow Ventana(VideoMode(850, 700), "Arcanoid");
+    Ventana.setFramerateLimit(60);
     
     // Pelota
-    pelota = CircleShape(5.f);
-    pelota.setOrigin(2.5f, 2.5f);
-    pelota.setFillColor(Color::Yellow);
-    pelota.setPosition(ventana.getSize().x / 2, ventana.getSize().y / 2);
+    Pelota = CircleShape(5.f);
+    Pelota.setOrigin(2.5f, 2.5f);
+    Pelota.setFillColor(Color::Red);
+    Pelota.setPosition(Ventana.getSize().x / 2, Ventana.getSize().y / 2);
     // Paleta
-    paleta = RectangleShape(Vector2f(60, 10));
-    paleta.setOrigin(paleta.getSize().x / 2, paleta.getSize().y / 2);
-    paleta.setFillColor(Color::Blue);
-    paleta.setPosition(ventana.getSize().x / 2, ventana.getSize().y - 20);
+    Paleta = RectangleShape(Vector2f(60, 10));
+    Paleta.setOrigin(Paleta.getSize().x / 2, Paleta.getSize().y / 2);
+    Paleta.setFillColor(Color::White);
+    Paleta.setPosition(Ventana.getSize().x / 2, Ventana.getSize().y - 20);
     
     // Fuente y Texto
-    if (!fuente.loadFromFile("Fonts/Arial.ttf"))
+    if (!Fuente.loadFromFile("Fonts/ARCADE.TTF"))
     {
         cout << "Error al cargar la fuente." << endl;
     }
-    texto.setFont(fuente);
+    Texto.setFont(Fuente);
     
     // Sonidos
-    if (!paredSB.loadFromFile("Sounds/ReboteParedes.wav") || 
-        !paletaSB.loadFromFile("Sounds/RebotePaleta.wav") || 
-        !ladrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
+    if (!ParedSB.loadFromFile("Sounds/ReboteParedes.wav") || 
+        !PaletaSB.loadFromFile("Sounds/RebotePaleta.wav") || 
+        !LadrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
     {
         cout << "Error al cargar los sonidos." << endl;
     }
-    paredS.setBuffer(paredSB);
-    paletaS.setBuffer(paletaSB);
-    ladrilloS.setBuffer(ladrilloSB);
+    ParedS.setBuffer(ParedSB);
+    PaletaS.setBuffer(PaletaSB);
+    LadrilloS.setBuffer(LadrilloSB);
     
     // Inicializar Plataforma
-    plataforma.plataforma = RectangleShape(Vector2f(30, 10));
-    plataforma.plataforma.setFillColor(Color::Red);
+    Plataforma.PlataformaShape = RectangleShape(Vector2f(30, 10));
+    Plataforma.PlataformaShape.setFillColor(Color::Red);
     // Inicializacion de Ladrillos de Vidrio
     for (int i = 1; i < 8; i++)
     {
-        idCV *= -1;
+        IdCV *= -1;
         for (int j = 1; j < 9; j++)
         {
             // Tamaño Ladrillos
-            ladrillos[i][j].ladrillo = RectangleShape(Vector2f(65, 10));
+            Ladrillos[i][j].LadrilloShape = RectangleShape(Vector2f(65, 10));
             // Posicion Ladrillos
-            ladrillos[i][j].ladrillo.setPosition(j * 66, (i + 1) * 11);
+            Ladrillos[i][j].LadrilloShape.setPosition(j * 66, (i + 1) * 11);
             // Colores Ladrillos
-            if (idCV == 1)
+            if (IdCV == 1)
             { // Cian Verde
-                if (idCH == 1)
+                if (IdCH == 1)
                 {
-                    ladrillos[i][j].ladrillo.setFillColor(Color::Cyan);
+                    Ladrillos[i][j].LadrilloShape.setFillColor(Color::Cyan);
                 }
                 else
                 {
-                    ladrillos[i][j].ladrillo.setFillColor(Color::Green);
+                    Ladrillos[i][j].LadrilloShape.setFillColor(Color::Green);
                 }
             }
             else
             { // Amarillo y Magenta
-                if (idCH == 1)
+                if (IdCH == 1)
                 {
-                    ladrillos[i][j].ladrillo.setFillColor(Color::Yellow);
+                    Ladrillos[i][j].LadrilloShape.setFillColor(Color::Blue);
                 }
                 else
                 {
-                    ladrillos[i][j].ladrillo.setFillColor(Color::Magenta);
+                    Ladrillos[i][j].LadrilloShape.setFillColor(Color::brown);
                 }
             }
-            idCH *= -1;
+            IdCH *= -1;
         }
     }
 
     // Cargar la textura de la imagen de fondo
-    sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("images/fondo_brick.jpg")) {
+    sf::Texture BackgroundTexture;
+    if (!BackgroundTexture.loadFromFile("images/fondo_brick.jpg")) {
         std::cerr << "Error al cargar la imagen de fondo" << std::endl;
         return -1;
     }
 
     // Crear un sprite para la imagen de fondo
-    sf::Sprite backgroundSprite;
-    backgroundSprite.setTexture(backgroundTexture);
+    sf::Sprite BackgroundSprite;
+    BackgroundSprite.setTexture(BackgroundTexture);
 
     // Crear un bloque grande de color blanco
-    RectangleShape bloqueBlanco(Vector2f(650, 500));
-    bloqueBlanco.setFillColor(Color::White);
+    RectangleShape BloqueBlanco(Vector2f(650, 500));
+    BloqueBlanco.setFillColor(Color::White);
 
-    while (ventana.isOpen())
+    while (Ventana.isOpen())
     {
-        Event event;
-        while (ventana.pollEvent(event))
+        Event Event;
+        while (Ventana.pollEvent(Event))
         {
-            if (event.type == Event::Closed)
+            if (Event.type == Event::Closed)
             {
-                ventana.close();
+                Ventana.close();
             }
         }
-        timer++;
-        if (activo)
+        Timer++;
+        if (Activo)
         { // Si esta activo el juego ejecutamos el codigo
             // Rebote Pelota
-            if (pelota.getPosition().x >= ventana.getSize().x || pelota.getPosition().x <= 0)
+            if (Pelota.getPosition().x >= Ventana.getSize().x || Pelota.getPosition().x <= 0)
             {
                 // Cambiamos Direccion en X
-                velDirPelota.x *= -1;
-                paredS.play();
+                VelDirPelota.x *= -1;
+                ParedS.play();
             }
-            if (pelota.getPosition().y <= 0)
+            if (Pelota.getPosition().y <= 0)
             {
                 // Cambiamos Direccion en Y
-                velDirPelota.y *= -1;
-                paredS.play();
+                VelDirPelota.y *= -1;
+                ParedS.play();
             }
-            if (pelota.getPosition().y >= ventana.getSize().y)
+            if (Pelota.getPosition().y >= Ventana.getSize().y)
             {
                 // Perdio el juego
-                activo = false;
-                texto.setString("Perdiste");
-                texto.setPosition(200, ventana.getSize().y / 2);
+                Activo = false;
+                Texto.setString("Perdiste");
+                Texto.setPosition(200, Ventana.getSize().y / 2);
             }
             // Movimiento Paleta
-            if (Keyboard::isKeyPressed(Keyboard::Right) && paleta.getPosition().x <= ventana.getSize().x)
+            if (Keyboard::isKeyPressed(Keyboard::Right) && Paleta.getPosition().x <= Ventana.getSize().x)
             {
-                paleta.move(3.5, 0);
+                Paleta.move(3.5, 0);
             }
-            if (Keyboard::isKeyPressed(Keyboard::Left) && paleta.getPosition().x >= 0)
+            if (Keyboard::isKeyPressed(Keyboard::Left) && Paleta.getPosition().x >= 0)
             {
-                paleta.move(-3.5, 0);
+                Paleta.move(-3.5, 0);
             }
             // Movimiento Pelota
-            pelota.move(velDirPelota.x, velDirPelota.y);
+            Pelota.move(VelDirPelota.x, VelDirPelota.y);
             // Colision Plataforma
-            if (plataforma.estado && paleta.getGlobalBounds().contains(plataforma.plataforma.getPosition().x, plataforma.plataforma.getPosition().y))
+            if (Plataforma.Estado && Paleta.getGlobalBounds().contains(Plataforma.PlataformaShape.getPosition().x, Plataforma.PlataformaShape.getPosition().y))
             {
-                paleta.setScale(2, 1);
-                plataforma.estado = false;
-                timer = 0;
+                Paleta.setScale(2, 1);
+                Plataforma.Estado = false;
+                Timer = 0;
             }
             // Colisiones Pelota
-            if (!enColision)
+            if (!EnColision)
             {
                 // Colision Pelota Paleta
-                if (paleta.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
+                if (Paleta.getGlobalBounds().contains(Pelota.getPosition().x, Pelota.getPosition().y))
                 {
-                    if (paleta.getPosition().x - pelota.getPosition().x >= 20)
+                    if (Paleta.getPosition().x - Pelota.getPosition().x >= 20)
                     { // Rebote Lado Izquierdo
-                        velDirPelota.x = -3;
+                        VelDirPelota.x = -3;
                     }
-                    else if (paleta.getPosition().x - pelota.getPosition().x <= -20)
+                    else if (Paleta.getPosition().x - Pelota.getPosition().x <= -20)
                     { // Rebote Lado Derecho
-                        velDirPelota.x = 3;
+                        VelDirPelota.x = 3;
                     }
                     else
                     { // Rebote en el Medio
-                        if (velDirPelota.x > 0)
+                        if (VelDirPelota.x > 0)
                         {
-                            velDirPelota.x = 1.5;
+                            VelDirPelota.x = 1.5;
                         }
                         else
                         {
-                            velDirPelota.x = -1.5;
+                            VelDirPelota.x = -1.5;
                         }
                     }
-                    velDirPelota.y *= -1; // Cambiar Direccion Y
-                    enColision = true;
-                    paletaS.play();
+                    VelDirPelota.y *= -1; // Cambiar Direccion Y
+                    EnColision = true;
+                    PaletaS.play();
                 }
                 // Colision Pelota Ladrillo Vidrio
                 for (int i = 1; i < 8; i++)
                 {
                     for (int j = 1; j < 9; j++)
                     {
-                        if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
+                        if (Ladrillos[i][j].Estado && Ladrillos[i][j].LadrilloShape.getGlobalBounds().contains(Pelota.getPosition().x, Pelota.getPosition().y))
                         {
-                            velDirPelota.y *= -1;
-                            ladrillos[i][j].estado = false;
-                            enColision = true;
-                            cantLadrillos--;
-                            ladrilloS.play();
+                            VelDirPelota.y *= -1;
+                            Ladrillos[i][j].Estado = false;
+                            EnColision = true;
+                            CantLadrillos--;
+                            LadrilloS.play();
                             // Plataforma Aleatoria
                             srand(time(NULL));
-                            auxPlataforma = 1 + rand() % 6; // Num Aleatorio 1-5
-                            if (auxPlataforma == 1 && !plataforma.estado)
+                            AuxPlataforma = 1 + rand() % 6; // Num Aleatorio 1-5
+                            if (AuxPlataforma == 1 && !Plataforma.Estado)
                             {
-                                plataforma.estado = true;
-                                plataforma.plataforma.setPosition(ladrillos[i][j].ladrillo.getPosition().x, ladrillos[i][j].ladrillo.getPosition().y);
+                                Plataforma.Estado = true;
+                                Plataforma.PlataformaShape.setPosition(Ladrillos[i][j].LadrilloShape.getPosition().x, Ladrillos[i][j].LadrilloShape.getPosition().y);
                             }
                         }
                     }
@@ -238,22 +238,22 @@ int main()
             }
             else
             {
-                enColision = false;
-                if (paleta.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
+                EnColision = false;
+                if (Paleta.getGlobalBounds().contains(Pelota.getPosition().x, Pelota.getPosition().y))
                 {
-                    enColision = true;
+                    EnColision = true;
                 }
                 for (int i = 1; i < 8; i++)
                 {
                     for (int j = 1; j < 9; j++)
                     {
-                        if (ladrillos[i][j].estado && ladrillos[i][j].ladrillo.getGlobalBounds().contains(pelota.getPosition().x, pelota.getPosition().y))
+                        if (Ladrillos[i][j].Estado && Ladrillos[i][j].LadrilloShape.getGlobalBounds().contains(Pelota.getPosition().x, Pelota.getPosition().y))
                         {
-                            enColision = true;
+                            EnColision = true;
                             break;
                         }
                     }
-                    if (enColision)
+                    if (EnColision)
                     {
                         break;
                     }
@@ -261,57 +261,57 @@ int main()
             }
         }
         // Movimiento Plataforma
-        if (plataforma.estado)
+        if (Plataforma.Estado)
         {
-            plataforma.plataforma.move(0, 2.5f);
+            Plataforma.PlataformaShape.move(0, 2.5f);
         }
         // Comprobar Efecto Plataforma
-        if (timer >= 600)
+        if (Timer >= 600)
         {
-            paleta.setScale(1, 1);
+            Paleta.setScale(1, 1);
         }
         // Comprobar si quedan ladrillos
-        if (cantLadrillos <= 0)
+        if (CantLadrillos <= 0)
         {
-            activo = false;
-            texto.setString("Ganaste");
-            texto.setPosition(200, ventana.getSize().y / 2);
+            Activo = false;
+            Texto.setString("Ganaste");
+            Texto.setPosition(200, Ventana.getSize().y / 2);
         }
         // Limpiar Pantalla con un color de fondo específico
-        ventana.clear(Color(135, 206, 250)); // Azul claro
+        Ventana.clear(Color(135, 206, 250)); // Azul claro
 
-        if (activo)
+        if (Activo)
         {
             // Dibujar bloque blanco
-            ventana.draw(bloqueBlanco);
+            Ventana.draw(BloqueBlanco);
             // Dibujar Pantalla
-            ventana.draw(backgroundSprite);
-            ventana.draw(pelota);
+            Ventana.draw(BackgroundSprite);
+            Ventana.draw(Pelota);
             // Dibujar Paleta
-            ventana.draw(paleta);
+            Ventana.draw(Paleta);
             // Dibujar Vitral de Ladrillos
             for (int i = 1; i < 8; i++)
             {
                 for (int j = 1; j < 9; j++)
                 {
-                    if (ladrillos[i][j].estado)
+                    if (Ladrillos[i][j].Estado)
                     {
-                        ventana.draw(ladrillos[i][j].ladrillo);
+                        Ventana.draw(Ladrillos[i][j].LadrilloShape);
                     }
                 }
             }
             // Dibujar Plataforma
-            if (plataforma.estado)
+            if (Plataforma.Estado)
             {
-                ventana.draw(plataforma.plataforma);
+                Ventana.draw(Plataforma.PlataformaShape);
             }
         }
         else
         {
-            ventana.draw(texto);
+            Ventana.draw(Texto);
         }
         // Mostrar Pantalla
-        ventana.display();
+        Ventana.display();
     }
     return 0;
 }

@@ -5,42 +5,42 @@
 
 class Jugador {
 private:
-    sf::RectangleShape paleta;
+    sf::RectangleShape Paleta;
 
 public:
-    Jugador(sf::Vector2f size, sf::Vector2f position, sf::Color color);
-    void moveLeft(float deltaTime);
-    void moveRight(float deltaTime);
-    void draw(sf::RenderWindow &window);
-    sf::Vector2f getPosition();
-    sf::FloatRect getGlobalBounds();
+    Jugador(sf::Vector2f Size, sf::Vector2f Position, sf::Color Color);
+    void MoveLeft(float DeltaTime);
+    void MoveRight(float DeltaTime);
+    void Draw(sf::RenderWindow &Window);
+    sf::Vector2f GetPosition();
+    sf::FloatRect GetGlobalBounds();
 };
 
-Jugador::Jugador(sf::Vector2f size, sf::Vector2f position, sf::Color color) {
-    paleta.setSize(size);
-    paleta.setOrigin(size.x / 2, size.y / 2);
-    paleta.setFillColor(color);
-    paleta.setPosition(position);
+Jugador::Jugador(sf::Vector2f Size, sf::Vector2f Position, sf::Color Color) {
+    Paleta.setSize(Size);
+    Paleta.setOrigin(Size.x / 2, Size.y / 2);
+    Paleta.setFillColor(Color);
+    Paleta.setPosition(Position);
 }
 
-void Jugador::moveLeft(float deltaTime) {
-    paleta.move(-3.5f * deltaTime, 0);
+void Jugador::MoveLeft(float DeltaTime) {
+    Paleta.move(-3.5f * DeltaTime, 0);
 }
 
-void Jugador::moveRight(float deltaTime) {
-    paleta.move(3.5f * deltaTime, 0);
+void Jugador::MoveRight(float DeltaTime) {
+    Paleta.move(3.5f * DeltaTime, 0);
 }
 
-void Jugador::draw(sf::RenderWindow &window) {
-    window.draw(paleta);
+void Jugador::Draw(sf::RenderWindow &Window) {
+    Window.draw(Paleta);
 }
 
-sf::Vector2f Jugador::getPosition() {
-    return paleta.getPosition();
+sf::Vector2f Jugador::GetPosition() {
+    return Paleta.getPosition();
 }
 
-sf::FloatRect Jugador::getGlobalBounds() {
-    return paleta.getGlobalBounds();
+sf::FloatRect Jugador::GetGlobalBounds() {
+    return Paleta.getGlobalBounds();
 }
 
 #endif // JUGADOR_HPP

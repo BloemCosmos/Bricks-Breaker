@@ -5,55 +5,54 @@
 
 class Plataforma {
 private:
-    sf::RectangleShape plataforma;
-    bool estado;
+    sf::RectangleShape PlataformaShape;
+    bool Estado;
 
 public:
     Plataforma();
-    void inicializar(float x, float y);
-    void mover();
-    void dibujar(sf::RenderWindow& ventana);
-    bool colision(sf::FloatRect jugadorPos);
-    bool getEstado();
-    void desactivar();
+    void Inicializar(float x, float y);
+    void Mover();
+    void Dibujar(sf::RenderWindow& ventana);
+    bool Colision(sf::FloatRect jugadorPos);
+    bool GetEstado();
+    void Desactivar();
 };
 
 Plataforma::Plataforma() {
-    estado = false;
+    Estado = false;
 }
 
-void Plataforma::inicializar(float x, float y) {
-    plataforma.setSize(sf::Vector2f(30, 10));
-    plataforma.setFillColor(sf::Color::White);
-    plataforma.setPosition(x, y);
-    estado = true;
+void Plataforma::Inicializar(float x, float y) {
+    PlataformaShape.setSize(sf::Vector2f(30, 10));
+    PlataformaShape.setFillColor(sf::Color::White);
+    PlataformaShape.setPosition(x, y);
+    Estado = true;
 }
 
-void Plataforma::mover() {
-    plataforma.move(0, 2.5f);
+void Plataforma::Mover() {
+    PlataformaShape.move(0, 2.5f);
 }
 
-void Plataforma::dibujar(sf::RenderWindow& ventana) {
-    if (estado) {
-        ventana.draw(plataforma);
+void Plataforma::Dibujar(sf::RenderWindow& ventana) {
+    if (Estado) {
+        ventana.draw(PlataformaShape);
     }
 }
 
-bool Plataforma::colision(sf::FloatRect jugadorPos) {
-    if (estado && plataforma.getGlobalBounds().intersects(jugadorPos)) {
-        estado = false;
+bool Plataforma::Colision(sf::FloatRect jugadorPos) {
+    if (Estado && PlataformaShape.getGlobalBounds().intersects(jugadorPos)) {
+        Estado = false;
         return true;
     }
     return false;
 }
 
-bool Plataforma::getEstado() {
-    return estado;
+bool Plataforma::GetEstado() {
+    return Estado;
 }
 
-void Plataforma::desactivar() {
-    estado = false;
+void Plataforma::Desactivar() {
+    Estado = false;
 }
 
 #endif // PLATAFORMA_HPP
-

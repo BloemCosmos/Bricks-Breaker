@@ -1,22 +1,22 @@
 {
-    "configurations": [
+    "Configurations": [
         {
-            "name": "Win32",
-            "includePath": [
+            "Name": "Win32",
+            "IncludePath": [
                 "${workspaceFolder}/**"
             ],
-            "defines": [
+            "Defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "windowsSdkVersion": "10.0.22000.0",
-            "compilerPath": "cl.exe",
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "WindowsSdkVersion": "10.0.22000.0",
+            "CompilerPath": "cl.exe",
+            "CStandard": "c17",
+            "CppStandard": "c++17",
+            "IntelliSenseMode": "windows-msvc-x64",
+            "ConfigurationProvider": "ms-vscode.makefile-tools"
         }
     ],
-    "version": 4
+    "Version": 4
 }

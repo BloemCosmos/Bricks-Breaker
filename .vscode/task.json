@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "Build",
             "type": "shell",
             "command": "g++",
             "args": [
@@ -16,11 +16,11 @@
                 "-o", "${workspaceFolder}/main"
             ],
             "group": {
-                "kind": "build",
+                "kind": "Build",
                 "isDefault": true
             },
             "problemMatcher": ["$gcc"],
-            "detail": "Compilación de SFML"
+            "detail": "Compilación De SFML"
         }
     ]
 }
