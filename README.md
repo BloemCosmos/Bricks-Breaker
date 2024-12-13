@@ -1,6 +1,6 @@
 # Bricks-Breaker
 
-![alt text](H2x1_WiiUDS_BrickBreaker_image1600w-1.jpg)
+![alt text](H2x1_WiiUDS_BrickBreaker_image1600w.jpg)
 ![Screenshot](image.png)
 ![Screenshot](image-1.png)
 
