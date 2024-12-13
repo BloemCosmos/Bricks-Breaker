@@ -1,61 +1,29 @@
-SRC_DIR := src
-BIN_DIR := bin
+# Directorios de Origen y Destino
+SrcDir := src
+BinDir := bin
 
-# Rutas de SFML
-SFML_INCLUDE := C:/Users/danie/Desktop/SFML-2.6.2/include
-SFML_LIB := C:/Users/danie/Desktop/SFML-2.6.2/lib
+Sfml := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
 
-# Bibliotecas de SFML
-SFML := -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+# Obtener Todos Los Archivos .cpp en el Directorio de Origen
+CppFiles := $(wildcard $(SrcDir)/*.cpp)
 
-CPP_FILES := $(wildcard $(SRC_DIR)/*.cpp)
-EXE_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(BIN_DIR)/%.exe,$(CPP_FILES))
+# Generar Los Nombres de Los Archivos .exe en el Directorio de Destino
+ExeFiles := $(patsubst $(SrcDir)/%.cpp,$(BinDir)/%.exe,$(CppFiles))
 
-$(BIN_DIR)/%.exe: $(SRC_DIR)/%.cpp $(wildcard include/*.hpp) | $(BIN_DIR)
-	g++ $< -o $@ $(SFML) -I$(SFML_INCLUDE) -L$(SFML_LIB) -Iinclude
+# Regla Para Compilar Cada Archivo .cpp y Generar el Archivo .exe Correspondiente
+$(BinDir)/%.exe: $(SrcDir)/%.cpp $(wildcard include/*.hpp)
+	g++ $< -o $@ $(Sfml) -Iinclude
 
-$(BIN_DIR):
-	mkdir $(BIN_DIR)
+# Regla Por Defecto Para Compilar Todos Los Archivos .cpp
+All: $(ExeFiles)
 
-# Nombre del compilador
-CXX = g++
-
-# Flags del compilador
-CXXFLAGS = -I./sfml -std=c++11
-
-# Librerías de SFML
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-
-# Archivos fuente
-SRCS = main.cpp
-
-# Archivo objeto
-OBJS = $(SRCS:.cpp=.o)
-
-# Nombre del ejecutable
-TARGET = arcanoid
-
-# Regla por defecto
-all: $(TARGET)
-
-# Regla para compilar el ejecutable
-$(TARGET): $(OBJS)
-    $(CXX) $(OBJS) -o $(TARGET) $(LIBS)
-
-# Regla para compilar los archivos objeto
-%.o: %.cpp
-    $(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Regla para limpiar los archivos generados
-clean:
-    rm -f $(OBJS) $(TARGET)
-
-all: $(EXE_FILES)
-
-run%: $(BIN_DIR)/%.exe
+# Regla Para Ejecutar Cada Archivo .exe
+Run%: $(BinDir)/%.exe
 	./$<
 
-clean:
-	rm -f $(BIN_DIR)/*.exe
+# Regla Para Limpiar Los Archivos Generados
+Clean:
+	rm -f $(ExeFiles)
 
-.PHONY: all clean run%
+.PHONY: All Clean
+.PHONY: Run-%     #
