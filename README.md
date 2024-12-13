@@ -1,7 +1,10 @@
 # Bricks-Breaker
-![alt text](images/H2x1_WiiUDS_BrickBreaker_image1600w.jpg)
 
-![alt text](images/Captura_de_pantalla_2024-12-12_194806.jpg)
+![alt text](H2x1_WiiUDS_BrickBreaker_image1600w.jpg)
+
+![alt text](Captura_de_pantalla_2024-12-12_194806.jpg)
+
+<video controls src="brick_video.mp4" title="Title"></video>
 
 Este proyecto es una implementación simple del clásico juego arcade "Arkanoid" utilizando la biblioteca SFML en C++. El juego consiste en controlar una paleta para hacer rebotar una bola y romper bloques. El objetivo es despejar todos los bloques sin dejar que la bola caiga fuera de la pantalla.
 
