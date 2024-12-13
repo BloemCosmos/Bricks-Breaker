@@ -1,9 +1,7 @@
 # Bricks-Breaker
 
-![Screenshot](Captura_de_pantalla_2024-12-12_194806.jpg)
-
+![alt text](H2x1_WiiUDS_BrickBreaker_image1600w-1.jpg)
 ![Screenshot](image.png)
-
 ![Screenshot](image-1.png)
 
 <video controls src="brick_video.mp4" title="Gameplay Video"></video>
