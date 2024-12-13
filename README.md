@@ -134,6 +134,8 @@ Usa las teclas de flecha izquierda y derecha para mover la paleta.
 - **Fuentes**: Asegúrate de que `Fonts/Arial.TTF` esté en el directorio correcto.
 - **Sonidos**: Asegúrate de que los archivos de sonido `ReboteParedes.wav`, `RebotePaleta.wav` y `ReboteLadrillo.wav` estén en el directorio correcto.
 
+![alt text](Arkanoid.png)
+
 ## Creado por
 
 - Luis Daniel Brambila Ramos (Reg: 23110116)
