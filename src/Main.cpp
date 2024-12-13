@@ -60,7 +60,12 @@ int main()
     Paleta.setPosition(Ventana.getSize().x / 2, Ventana.getSize().y - 20);
     
     // Fuente y Texto
-    if (!Fuente.loadFromFile("Fonts/ARCADE.TTF"))
+    if (!Fuente.loadFromFile("fonts/Arial.ttf"))
+    {
+        cout << "Error al cargar la fuente." << endl;
+    }
+    Texto.setFont(Fuente);
+    if (!Fuente.loadFromFile("Fonts/Arial.TTF"))
     {
         cout << "Error al cargar la fuente." << endl;
     }
