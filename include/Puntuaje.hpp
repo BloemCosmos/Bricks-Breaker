@@ -3,7 +3,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-class Puntuaje {
+class Puntuaje
+{
 private:
     int Puntuacion;
     sf::Text TextoPuntuacion;
@@ -16,9 +17,11 @@ public:
     void Draw(sf::RenderWindow &Window);
 };
 
-Puntuaje::Puntuaje() {
+Puntuaje::Puntuaje()
+{
     Puntuacion = 0;
-    if (!Fuente.loadFromFile("Fonts/ARCADE.TTF")) {
+    if (!Fuente.loadFromFile("Fonts/ARCADE.TTF"))
+    {
         std::cout << "Error al cargar la fuente." << std::endl;
     }
     TextoPuntuacion.setFont(Fuente);
@@ -27,17 +30,20 @@ Puntuaje::Puntuaje() {
     ReiniciarPuntuacion();
 }
 
-void Puntuaje::IncrementarPuntuacion(int Puntos) {
+void Puntuaje::IncrementarPuntuacion(int Puntos)
+{
     Puntuacion += Puntos;
     TextoPuntuacion.setString("Puntuacion: " + std::to_string(Puntuacion));
 }
 
-void Puntuaje::ReiniciarPuntuacion() {
+void Puntuaje::ReiniciarPuntuacion()
+{
     Puntuacion = 0;
     TextoPuntuacion.setString("Puntuacion: " + std::to_string(Puntuacion));
 }
 
-void Puntuaje::Draw(sf::RenderWindow &Window) {
+void Puntuaje::Draw(sf::RenderWindow &Window)
+{
     Window.draw(TextoPuntuacion);
 }
 #endif // PUNTUAJE_HPP

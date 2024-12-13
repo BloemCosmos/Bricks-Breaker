@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
-class Jugador {
+class Jugador
+{
 private:
     sf::RectangleShape Paleta;
 
@@ -16,30 +17,36 @@ public:
     sf::FloatRect GetGlobalBounds();
 };
 
-Jugador::Jugador(sf::Vector2f Size, sf::Vector2f Position, sf::Color Color) {
+Jugador::Jugador(sf::Vector2f Size, sf::Vector2f Position, sf::Color Color)
+{
     Paleta.setSize(Size);
     Paleta.setOrigin(Size.x / 2, Size.y / 2);
     Paleta.setFillColor(Color);
     Paleta.setPosition(Position);
 }
 
-void Jugador::MoveLeft(float DeltaTime) {
+void Jugador::MoveLeft(float DeltaTime)
+{
     Paleta.move(-3.5f * DeltaTime, 0);
 }
 
-void Jugador::MoveRight(float DeltaTime) {
+void Jugador::MoveRight(float DeltaTime)
+{
     Paleta.move(3.5f * DeltaTime, 0);
 }
 
-void Jugador::Draw(sf::RenderWindow &Window) {
+void Jugador::Draw(sf::RenderWindow &Window)
+{
     Window.draw(Paleta);
 }
 
-sf::Vector2f Jugador::GetPosition() {
+sf::Vector2f Jugador::GetPosition()
+{
     return Paleta.getPosition();
 }
 
-sf::FloatRect Jugador::GetGlobalBounds() {
+sf::FloatRect Jugador::GetGlobalBounds()
+{
     return Paleta.getGlobalBounds();
 }
 

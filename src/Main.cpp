@@ -47,7 +47,7 @@ int main()
     // Ventana
     RenderWindow Ventana(VideoMode(850, 700), "Arcanoid");
     Ventana.setFramerateLimit(60);
-    
+
     // Pelota
     Pelota = CircleShape(5.f);
     Pelota.setOrigin(2.5f, 2.5f);
@@ -58,7 +58,7 @@ int main()
     Paleta.setOrigin(Paleta.getSize().x / 2, Paleta.getSize().y / 2);
     Paleta.setFillColor(Color::White);
     Paleta.setPosition(Ventana.getSize().x / 2, Ventana.getSize().y - 20);
-    
+
     // Fuente y Texto
     if (!Fuente.loadFromFile("fonts/Arial.ttf"))
     {
@@ -70,10 +70,10 @@ int main()
         cout << "Error al cargar la fuente." << endl;
     }
     Texto.setFont(Fuente);
-    
+
     // Sonidos
-    if (!ParedSB.loadFromFile("Sounds/ReboteParedes.wav") || 
-        !PaletaSB.loadFromFile("Sounds/RebotePaleta.wav") || 
+    if (!ParedSB.loadFromFile("Sounds/ReboteParedes.wav") ||
+        !PaletaSB.loadFromFile("Sounds/RebotePaleta.wav") ||
         !LadrilloSB.loadFromFile("Sounds/ReboteLadrillo.wav"))
     {
         cout << "Error al cargar los sonidos." << endl;
@@ -81,7 +81,7 @@ int main()
     ParedS.setBuffer(ParedSB);
     PaletaS.setBuffer(PaletaSB);
     LadrilloS.setBuffer(LadrilloSB);
-    
+
     // Inicializar Plataforma
     Plataforma.PlataformaShape = RectangleShape(Vector2f(30, 10));
     Plataforma.PlataformaShape.setFillColor(Color::Red);
@@ -124,7 +124,8 @@ int main()
 
     // Cargar la textura de la imagen de fondo
     sf::Texture BackgroundTexture;
-    if (!BackgroundTexture.loadFromFile("images/fondo_brick.jpg")) {
+    if (!BackgroundTexture.loadFromFile("images/fondo_brick.jpg"))
+    {
         std::cerr << "Error al cargar la imagen de fondo" << std::endl;
         return -1;
     }
