@@ -76,22 +76,16 @@ git clone https://github.com/BloemCosmos/Bricks-Breaker.git
 
 ### Compilar el Proyecto
 
-Navega al directorio del proyecto y compila el código:
+Compilar:
 ```bash
-cd arcanoid-game
-g++ -o arcanoid main.cpp -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
+make all
 ```
 
 ## Uso
 
 ### Ejecutar el Juego
 
-Compilar:
-```bash
-make all
-```
-
-O en Visual Studio Code:
+Visual Studio Code:
 ```bash
 bin\Main.exe
 ```
